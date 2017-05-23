@@ -57,6 +57,7 @@ class TraceMiddleware(MiddlewareClass):
             if span:
                 span.set_tag(http.STATUS_CODE, response.status_code)
                 span = _set_auth_tags(span, request)
+                print(span.pprint())
                 span.finish()
         except Exception:
             log.debug("error tracing request", exc_info=True)
