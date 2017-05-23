@@ -56,8 +56,9 @@ class TraceMiddleware(MiddlewareClass):
             span = _get_req_span(request)
             if span:
                 span.set_tag(http.STATUS_CODE, response.status_code)
+                if response.status_code == 500:  # Some exceptions are not handled by `process_exception`
+                    span.set_traceback()
                 span = _set_auth_tags(span, request)
-                print(span.pprint())
                 span.finish()
         except Exception:
             log.debug("error tracing request", exc_info=True)
