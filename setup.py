@@ -1,4 +1,4 @@
-import os; del os.link
+import os
 import sys
 import re
 
