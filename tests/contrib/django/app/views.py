@@ -30,6 +30,12 @@ def function_view(request):
     return HttpResponse(status=200)
 
 
+def error_500(request):
+    try:
+        1/0
+    except:
+        return HttpResponse(status=500)
+
 class FeedView(Feed):
     """
     A callable view that is part of the Django framework
@@ -47,7 +53,6 @@ class FeedView(Feed):
     def item_description(self, item):
         return 'empty'
 
-
 # use this url patterns for tests
 urlpatterns = [
     url(r'^users/$', UserList.as_view(), name='users-list'),
@@ -56,4 +61,5 @@ urlpatterns = [
     url(r'^fail-view/$', ForbiddenView.as_view(), name='forbidden-view'),
     url(r'^fn-view/$', function_view, name='fn-view'),
     url(r'^feed-view/$', FeedView(), name='feed-view'),
+    url(r'^error-500/$', error_500, name='error-500'),
 ]

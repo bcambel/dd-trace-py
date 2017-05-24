@@ -63,6 +63,22 @@ class DjangoMiddlewareTest(DjangoTraceTestCase):
         eq_(span.get_tag('http.url'), '/fn-view/')
         eq_(span.resource, 'tests.contrib.django.app.views.function_view')
 
+    def test_middleware_trace_error_500(self):
+        # ensures that all error 500 are well traced
+        url = reverse('error-500')
+        response = self.client.get(url)
+        eq_(response.status_code, 500)
+
+        # check for spans
+        spans = self.tracer.writer.pop()
+        eq_(len(spans), 1)
+        span = spans[0]
+        eq_(span.get_tag('http.status_code'), '500')
+        eq_(span.get_tag('http.url'), '/error-500/')
+        eq_(span.resource, 'tests.contrib.django.app.views.error_500')
+        print(span.pprint())
+        assert span.get_tag('error.stack')
+
     def test_middleware_trace_callable_view(self):
         # ensures that the internals are properly traced when using callable views
         url = reverse('feed-view')
