@@ -29,12 +29,9 @@ class ForbiddenView(TemplateView):
 def function_view(request):
     return HttpResponse(status=200)
 
-
 def error_500(request):
-    try:
-        1/0
-    except:
-        return HttpResponse(status=500)
+    1/0
+
 
 class FeedView(Feed):
     """
