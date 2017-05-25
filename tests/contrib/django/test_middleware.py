@@ -76,7 +76,7 @@ class DjangoMiddlewareTest(DjangoTraceTestCase):
         eq_(span.get_tag('http.status_code'), '500')
         eq_(span.get_tag('http.url'), '/error-500/')
         eq_(span.resource, 'tests.contrib.django.app.views.error_500')
-        assert span.get_tag('error.stack')
+        assert "ZeroDivisionError: integer division or modulo by zero" in span.get_tag('error.stack')
 
     def test_middleware_trace_callable_view(self):
         # ensures that the internals are properly traced when using callable views
