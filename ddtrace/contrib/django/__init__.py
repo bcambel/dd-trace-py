@@ -17,7 +17,10 @@ installed apps and in your middleware classes in ``settings.py``::
         # the tracer must be the first middleware
         'ddtrace.contrib.django.TraceMiddleware',
 
-        # your middleware...
+        # your middlewares...
+
+        # need to add this middleware at the end to trace exceptions
+        'ddtrace.contrib.django.TraceMiddleware',
     )
 
 The configuration of this integration is all namespaced inside a single
@@ -66,9 +69,9 @@ required_modules = ['django']
 
 with require_modules(required_modules) as missing_modules:
     if not missing_modules:
-        from .middleware import TraceMiddleware
+        from .middleware import TraceMiddleware, TraceExceptionMiddleware
         from .patch import patch
-        __all__ = ['TraceMiddleware', 'patch']
+        __all__ = ['TraceMiddleware', 'TraceExceptionMiddleware', 'patch']
 
 
 # define the Django app configuration

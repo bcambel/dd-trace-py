@@ -18,6 +18,27 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
+class TraceExceptionMiddleware(object):
+    """
+    Middleware that traces exceptions raised
+    """
+    def __init__(self, get_response=None):
+        # disable the middleware if the tracer is not enabled
+        # or if the auto instrumentation is disabled
+        self.get_response = get_response
+        if not settings.AUTO_INSTRUMENT:
+            raise MiddlewareNotUsed
+
+    def process_exception(self, request, exception):
+        try:
+            span = _get_req_span(request)
+            if span:
+                span.set_tag(http.STATUS_CODE, '500')
+                span.set_traceback() # will set the exception info
+        except Exception:
+            log.debug("error processing exception", exc_info=True)
+
+
 class TraceMiddleware(MiddlewareClass):
     """
     Middleware that traces Django requests

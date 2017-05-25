@@ -30,8 +30,19 @@ def traced_setup(wrapped, instance, args, kwargs):
             else:
                 settings.MIDDLEWARE_CLASSES.insert(0, 'ddtrace.contrib.django.TraceMiddleware')
 
+        if 'ddtrace.contrib.django.TraceExceptionMiddleware' not in settings.MIDDLEWARE_CLASSES:
+            if isinstance(settings.MIDDLEWARE_CLASSES, tuple):
+                # MIDDLEWARE_CLASSES is a tuple < 1.9
+                settings.MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES + \
+                        ('ddtrace.contrib.django.TraceExceptionMiddleware')
+            else:
+                settings.MIDDLEWARE_CLASSES.append('ddtrace.contrib.django.TraceExceptionMiddleware')
+
     if hasattr(settings, 'MIDDLEWARE'):
         if 'ddtrace.contrib.django.TraceMiddleware' not in settings.MIDDLEWARE:
             settings.MIDDLEWARE.insert(0, 'ddtrace.contrib.django.TraceMiddleware')
+
+        if 'ddtrace.contrib.django.TraceExceptionMiddleware' not in settings.MIDDLEWARE:
+            settings.MIDDLEWARE.append('ddtrace.contrib.django.TraceExceptionMiddleware')
 
     wrapped(*args, **kwargs)
