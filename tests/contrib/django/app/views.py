@@ -30,7 +30,7 @@ def function_view(request):
     return HttpResponse(status=200)
 
 def error_500(request):
-    1/0
+    raise Exception('Error 500')
 
 
 class FeedView(Feed):

@@ -18,7 +18,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class TraceExceptionMiddleware(object):
+class TraceExceptionMiddleware(MiddlewareClass):
     """
     Middleware that traces exceptions raised
     """

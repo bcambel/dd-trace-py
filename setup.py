@@ -59,6 +59,7 @@ setup(
     install_requires=[
         "wrapt",
         "msgpack-python",
+        "django-override_settings",
     ],
     # plugin tox
     tests_require=['tox', 'flake8'],

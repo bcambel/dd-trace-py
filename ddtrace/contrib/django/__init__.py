@@ -20,7 +20,7 @@ installed apps and in your middleware classes in ``settings.py``::
         # your middlewares...
 
         # need to add this middleware at the end to trace exceptions
-        'ddtrace.contrib.django.TraceMiddleware',
+        'ddtrace.contrib.django.TraceExceptionMiddleware',
     )
 
 The configuration of this integration is all namespaced inside a single
