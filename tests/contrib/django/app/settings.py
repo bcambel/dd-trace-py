@@ -83,6 +83,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
     'tests.contrib.django.app.middlewares.CatchExceptionMiddleware',
+    'ddtrace.contrib.django.TraceExceptionMiddleware',
 ]
 
 # Pre 1.10 style
@@ -100,6 +101,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
 
     'tests.contrib.django.app.middlewares.CatchExceptionMiddleware',
+    'ddtrace.contrib.django.TraceExceptionMiddleware',
 ]
 
 INSTALLED_APPS = [

@@ -10,7 +10,3 @@ except ImportError:
 class CatchExceptionMiddleware(MiddlewareClass):
     def process_exception(self, request, exception):
         return HttpResponse(status=500)
-
-class ThrowErrorMiddleware(MiddlewareClass):
-    def process_request(self, request):
-        raise Exception("Middleware throwing error")
